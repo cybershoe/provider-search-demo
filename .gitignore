@@ -2,6 +2,8 @@ keys/
 data/
 *.pem
 
+*.code-workspace
+
 .parcel-cache/
 dist/
 node_modules/
