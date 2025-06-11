@@ -29,17 +29,19 @@ export function App() {
   const debouncedFetchResults = useDebouncedCallback(fetchResults, 500, {leading: true})
 
   useEffect(()=>{
-    if ( searchInput.length >= 3 || ( useGeo && isLatLong(geoCoords as GeoCoordinates)) ) {
-      debouncedFetchResults(
-        searchInput, 
-        showDetails,
-        (r) => { 
-          setSearchError(r.error || "");
-          setResults(r.results);
-          setDbTime(r.databaseTime);
-        },
-        geoCoords
-      )
+    if ( searchInput.length >= 3 ) {
+      if ( !useGeo || useGeo && isLatLong(geoCoords as GeoCoordinates))  {
+        debouncedFetchResults(
+          searchInput, 
+          showDetails,
+          (r) => { 
+            setSearchError(r.error || "");
+            setResults(r.results);
+            setDbTime(r.databaseTime);
+          },
+          useGeo ? geoCoords : {} as GeoCoordinates
+        )
+      } 
     } else {
       debouncedFetchResults.cancel()
       setResults([])

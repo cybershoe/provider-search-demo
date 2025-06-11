@@ -15,9 +15,7 @@ export function ItemDetails({
         onClose= () => {},
         className="",
     }: ItemDetailsProps) {
-
-    console.log(JSON.stringify(data))
-
+        
     const { score, scoreDetails, ...responseData } = data ? data : { score: 1, scoreDetails: {}}
 
     return (
