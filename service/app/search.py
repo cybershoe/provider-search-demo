@@ -1,6 +1,6 @@
-from pymongo import MongoClient, AsyncMongoClient
+from pymongo import AsyncMongoClient
 from pymongo.errors import ServerSelectionTimeoutError
-from pprint import pformat
+from os import getenv
 from logging import getLogger
 import re
 from json import dumps
@@ -8,23 +8,16 @@ from time import perf_counter
 
 log = getLogger('uvicorn')
 
-MONGO_URI = uri = "mongodb+srv://providerdb.bzepjj.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&appName=ProviderDB"
+uri = getenv("MONGODB_URI", "mongodb://localhost:27017/")
 
-client = AsyncMongoClient(
-    uri,
-    tls=True,
-    tlsCertificateKeyFile="keys/X509-cert-4247274353405106559.pem",
-    authMechanism="MONGODB-X509",
-    # timeoutMS= 10000
-    )
+client = AsyncMongoClient(uri)
 
-db = client['Generator']
-coll = db['providers']
+db = client[getenv('MONGODB_DBNAME', 'providerDB')]
+coll = db[getenv('MONGODB_COLLECTION', 'providers')]
 
 rePostalCode = re.compile(r"[a-zA-Z]\d[a-zA-Z] ?[a-zA-Z]\d[a-zA-Z]")
 
-async def searchQuery(query: str, details: str, lat: float | None, lon: float | None, count: int = 5) -> tuple[dict, float]:
-  log.info(details)
+async def searchQuery(query: str, details: str, lat: float | None, lon: float | None, count: int = 5) -> dict:
   match = re.search(rePostalCode, query)
   if match:
     postalCode = match.group()
@@ -54,40 +47,45 @@ async def searchQuery(query: str, details: str, lat: float | None, lon: float | 
               'text': {
                 'query': query,
                 'path': 'location.province'
-                }
+              }
             }, {
               'autocomplete': {
                 'query': query,
                 'path': 'location.postalCode'
-                }
+              }
             }, {
               'autocomplete': {
                 'query': query,
                 'path': 'name.first',
                 'fuzzy': {}
-                }
+              }
             }, {
               'autocomplete': {
                 'query': query,
                 'path': 'name.last',
-                'fuzzy': {}
+                'fuzzy': {},
+                'score': {
+                  'boost': {
+                    'value': 2
+                  }
                 }
+              }
             }, {
               'autocomplete': {
                 'query': query,
                 'path': 'telephone.main',
-                }
+              }
             }, {
               'autocomplete': {
                 'query': query,
                 'path': 'telephone.fax',
-                }
+              }
             }, {
               'autocomplete': {
                 'query': query,
                 'path': 'providerType',
                 'fuzzy': {}
-                }
+              }
             }
         ]
       },

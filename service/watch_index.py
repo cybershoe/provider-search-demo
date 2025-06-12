@@ -1,14 +1,11 @@
-from argparse import ArgumentParser
-from faker import Faker
-from sys import stdout
-from random import choices, choice, randint
+from os import getenv
 from pymongo import MongoClient
-from json import load, dumps
+from json import dumps
 from time import sleep
 
 
 
-MONGO_URI = uri = "mongodb+srv://providerdb.bzepjj.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&appName=ProviderDB"
+uri = getenv("MONGODB_URI", "mongodb://localhost:27017/")
 # Create a new client and connect to the server
 with MongoClient(
     uri,

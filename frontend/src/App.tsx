@@ -46,7 +46,7 @@ export function App() {
       debouncedFetchResults.cancel()
       setResults([])
     }
-  }, [searchInput, useGeo, geoCoords])
+  }, [searchInput, useGeo, geoCoords, showDetails])
 
   return (
     <div className={"container"}>

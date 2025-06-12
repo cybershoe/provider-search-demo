@@ -1,0 +1,94 @@
+{
+  "name": "providerSearch",
+  "definition": {
+    "mappings": {
+      "dynamic": false,
+      "fields": {
+        "location": {
+          "type": "document",
+          "fields": {
+            "geoLocation": {
+              "type": "geo"
+            },
+            "municipality": [
+              {
+                "type": "autocomplete"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "postalCode": [
+              {
+                "type": "autocomplete"
+              },
+              {
+                "type": "token"
+              }
+            ],
+            "province": {
+              "type": "string"
+            },
+            "streetAddress": [
+              {
+                "type": "autocomplete",
+                "tokenization": "nGram"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "name": {
+          "type": "document",
+          "fields": {
+            "first": [
+              {
+                "type": "autocomplete"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "last": [
+              {
+                "type": "autocomplete"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "providerType": {
+          "type": "autocomplete"
+        },
+        "telephone": {
+          "type": "document",
+          "fields": {
+            "fax": [
+              {
+                "type": "autocomplete",
+                "tokenization": "nGram"
+              },
+              {
+                "type": "token"
+              }
+            ],
+            "main": [
+              {
+                "type": "autocomplete",
+                "tokenization": "nGram"
+              },
+              {
+                "type": "token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "storedSource": true
+  }
+}
