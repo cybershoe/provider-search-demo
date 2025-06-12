@@ -16,7 +16,7 @@ index = load(stdin)
 
 collection.create_search_index(index)
 
-print("Creating search index...", end='')
+print("Creating search index...", end='', flush=True)
 
 run = True
 while run:
@@ -26,7 +26,7 @@ while run:
       print(" done!")
       run = False
     else:
-      print('.', end='')
+      print('.', end='', flush=True)
       sleep(10)
   except KeyboardInterrupt:
     run = False
