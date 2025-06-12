@@ -55,7 +55,8 @@ npm start
 
 You should now have the frontend app running at http://localhost:1234
 
-> [!NOTE] If your API and frontend are not running on their default ports or 
+> [!NOTE]
+> If your API and frontend are not running on their default ports or 
 > on different systems, set the `CORS_ORIGINS` environment variable to a 
 > JSON-formatted list of origin URLs. 
 > 
