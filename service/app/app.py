@@ -6,9 +6,11 @@ from json import loads
 from os import getenv
 from logging import getLogger
 
+# Assuming the frontend is running on localhost:1234 or similar
+# Override with CORS_ORIGINS environment variable
 origins = loads(getenv('CORS_ORIGINS', '["http://localhost", "http://localhost:1234", "http://127.0.0.1", "http://127.0.0.1:1234"]'))
 
-log = getLogger()
+log = getLogger('uvicorn')
 
 app = FastAPI()
 

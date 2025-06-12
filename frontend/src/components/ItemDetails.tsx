@@ -1,7 +1,5 @@
 import ReactModal from 'react-modal';
-import { ProviderItem
-
- } from './SuggestionList';
+import { ProviderItem } from './SuggestionList';
 export interface ItemDetailsProps {
     data: ProviderItem,
     visible: boolean,
@@ -10,13 +8,13 @@ export interface ItemDetailsProps {
 }
 
 export function ItemDetails({
-        data,
-        visible,
-        onClose= () => {},
-        className="",
-    }: ItemDetailsProps) {
-        
-    const { score, scoreDetails, ...responseData } = data ? data : { score: 1, scoreDetails: {}}
+    data,
+    visible,
+    onClose = () => { },
+    className = "",
+}: ItemDetailsProps) {
+
+    const { score, scoreDetails, ...responseData } = data ? data : { score: -1, scoreDetails: {} }
 
     return (
         <ReactModal

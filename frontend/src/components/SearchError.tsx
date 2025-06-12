@@ -3,11 +3,11 @@ export interface SearchErrorProps {
     className?: string
 }
 
-export function SearchError({message, className = ""}: SearchErrorProps) {
+export function SearchError({ message, className = "" }: SearchErrorProps) {
     return (
-        <div 
+        <div
             className={className}
-            style={{display: message ? "block" : "none"}}
+            style={{ display: message ? "block" : "none" }}
         >
             <p>{message}</p>
         </div>

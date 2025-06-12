@@ -1,6 +1,6 @@
-import { PropsWithChildren, DetailedHTMLProps } from  'react' 
+import { PropsWithChildren, DetailedHTMLProps } from 'react'
 
-interface SidebarButtonProps  {
+interface SidebarButtonProps {
     onClick: () => void;
     expanded?: boolean;
 }
@@ -11,9 +11,9 @@ interface SidebarProps extends PropsWithChildren {
     className?: string
 }
 
-export function SidebarButton({onClick, expanded = false}: SidebarButtonProps) {
+export function SidebarButton({ onClick, expanded = false }: SidebarButtonProps) {
     return (
-        <div 
+        <div
             className='button'
             onClick={onClick}>
             <p>{expanded ? ">>" : "<<"}</p>
@@ -21,9 +21,9 @@ export function SidebarButton({onClick, expanded = false}: SidebarButtonProps) {
     )
 }
 
-export function Sidebar({expanded, width, children, ...rest}: SidebarProps) {
+export function Sidebar({ expanded, width, children, ...rest }: SidebarProps) {
     return (
-        <div 
+        <div
             {...rest}
             style={{
                 // display: expanded ? "block" : "none",

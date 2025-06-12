@@ -24,24 +24,24 @@ export function App() {
 
   const [geoCoords, setGeoCoords] = useState<GeoCoordinates>()
 
-  useEffect(()=>setSidebarExpanded(false), [])
+  useEffect(() => setSidebarExpanded(false), [])
 
-  const debouncedFetchResults = useDebouncedCallback(fetchResults, 500, {leading: true})
+  const debouncedFetchResults = useDebouncedCallback(fetchResults, 500, { leading: true })
 
-  useEffect(()=>{
-    if ( searchInput.length >= 3 ) {
-      if ( !useGeo || useGeo && isLatLong(geoCoords as GeoCoordinates))  {
+  useEffect(() => {
+    if (searchInput.length >= 3) {
+      if (!useGeo || useGeo && isLatLong(geoCoords as GeoCoordinates)) {
         debouncedFetchResults(
-          searchInput, 
+          searchInput,
           showDetails,
-          (r) => { 
+          (r) => {
             setSearchError(r.error || "");
             setResults(r.results);
             setDbTime(r.databaseTime);
           },
           useGeo ? geoCoords : {} as GeoCoordinates
         )
-      } 
+      }
     } else {
       debouncedFetchResults.cancel()
       setResults([])
@@ -56,109 +56,109 @@ export function App() {
         onClose={() => setShowResults(false)}
         className="itemDetails"
       />
-    <div className={"main"}>
-      <SidebarButton
-        onClick={() => setSidebarExpanded(!sidebarExpanded)}
-        expanded={sidebarExpanded}/>
-      <TimingStats 
-        value={dbTime}
-        className="timeStats"
-      />
-      <div className={"mainContent"}>
-      <h1>Find my provider</h1>
-      <input 
-        value={searchInput}
-        className={"providerSearch"}
-        onChange={(e) => setSearchInput(e.target.value)}
-      />
-      <SearchError 
-        className="searchError"
-        message={searchError}
-      />
-      <div style={{fontSize: 10, gap:0}}>
-        <SuggestionList
-          lineItems={results}
-          geoCoords={geoCoords}
-          itemClassNames={["listSlice", "listSliceAlt"]}
-          clickCallback={(i: ProviderItem) => {
-            setDetails(i)
-            setShowResults(true)
-          }}
+      <div className={"main"}>
+        <SidebarButton
+          onClick={() => setSidebarExpanded(!sidebarExpanded)}
+          expanded={sidebarExpanded} />
+        <TimingStats
+          value={dbTime}
+          className="timeStats"
         />
-      </div>
-    </div>
-    </div>
-
-    {/* Options Panel */}
-    <Sidebar
-      expanded={sidebarExpanded}
-      className="sidebarContainer" 
-      width={300}
-    >
-      <div
-       className="sidebarContent"
-      >
-        <h3>Options</h3>
-        <div className="optionsContainer">
-        <div className="optionsItem">
-          <p>Detailed search stats (slow!) :</p>
-          <div className="optionsControl">
-
-          <input 
-          type="checkbox"
-          checked={showDetails}
-          onChange={(e) => (
-            setShowDetails(e.target.checked)
-          )}
+        <div className={"mainContent"}>
+          <h1>Find my provider</h1>
+          <input
+            value={searchInput}
+            className={"providerSearch"}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
+          <SearchError
+            className="searchError"
+            message={searchError}
+          />
+          <div style={{ fontSize: 10, gap: 0 }}>
+            <SuggestionList
+              lineItems={results}
+              geoCoords={geoCoords}
+              itemClassNames={["listSlice", "listSliceAlt"]}
+              clickCallback={(i: ProviderItem) => {
+                setDetails(i)
+                setShowResults(true)
+              }}
+            />
           </div>
         </div>
-        <div className="optionsItem">
-        <p>Use Geolocation:</p>
-        <div  className="optionsControl">
-        <input 
-          type="checkbox"
-          checked={useGeo}
-          onChange={(e) => (
-            setUseGeo(e.target.checked)
-          )}
-        />
-        </div>
-        </div>
-        <div className="optionsItem">
-        <p>Latitude:</p>
-        <div className="optionsControl">
-        <input 
-        className={"latLon"}
-        value={geoCoords?.lat || ""}
-        onChange={(e: any)=>{
-          setGeoCoords({"lat": e.target.value, "long": geoCoords?.long || 0})
-        }}
-        />
-        </div>
-        </div>
-        <div className="optionsItem">
-        <p>Longitude:</p>
-        <div className="optionsControl">
-        <input 
-        className={"latLon"}
-        value={geoCoords?.long || ""}
-        onChange={(e: any)=>{
-          setGeoCoords({"lat": geoCoords?.lat || 0, "long": e.target.value})
-        }}
-        />
-        </div>
-        </div>
-        <div className="optionsItem">
-          <div className="optionsControl">
-        <button
-          onClick={() => getPosition((pos) => setGeoCoords(pos))}
-        >Update Geolocation</button>
-        </div>
-        </div>
-        </div>
       </div>
-    </Sidebar>
+
+      {/* Options Panel */}
+      <Sidebar
+        expanded={sidebarExpanded}
+        className="sidebarContainer"
+        width={300}
+      >
+        <div
+          className="sidebarContent"
+        >
+          <h3>Options</h3>
+          <div className="optionsContainer">
+            <div className="optionsItem">
+              <p>Detailed search stats (slow!) :</p>
+              <div className="optionsControl">
+
+                <input
+                  type="checkbox"
+                  checked={showDetails}
+                  onChange={(e) => (
+                    setShowDetails(e.target.checked)
+                  )}
+                />
+              </div>
+            </div>
+            <div className="optionsItem">
+              <p>Use Geolocation:</p>
+              <div className="optionsControl">
+                <input
+                  type="checkbox"
+                  checked={useGeo}
+                  onChange={(e) => (
+                    setUseGeo(e.target.checked)
+                  )}
+                />
+              </div>
+            </div>
+            <div className="optionsItem">
+              <p>Latitude:</p>
+              <div className="optionsControl">
+                <input
+                  className={"latLon"}
+                  value={geoCoords?.lat || ""}
+                  onChange={(e: any) => {
+                    setGeoCoords({ "lat": e.target.value, "long": geoCoords?.long || 0 })
+                  }}
+                />
+              </div>
+            </div>
+            <div className="optionsItem">
+              <p>Longitude:</p>
+              <div className="optionsControl">
+                <input
+                  className={"latLon"}
+                  value={geoCoords?.long || ""}
+                  onChange={(e: any) => {
+                    setGeoCoords({ "lat": geoCoords?.lat || 0, "long": e.target.value })
+                  }}
+                />
+              </div>
+            </div>
+            <div className="optionsItem">
+              <div className="optionsControl">
+                <button
+                  onClick={() => getPosition((pos) => setGeoCoords(pos))}
+                >Update Geolocation</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Sidebar>
     </div>
   );
 }
