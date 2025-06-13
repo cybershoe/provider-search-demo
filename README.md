@@ -3,7 +3,7 @@ Provider Search Demo
 
 ## Prerequisites
 
-- Access to a MongoDB Atlas cluster with permission to 
+- Access to a MongoDB Atlas cluster with permission to create databases
 - python/pip
 - npm/npx
 
