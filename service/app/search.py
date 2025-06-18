@@ -34,6 +34,7 @@ async def searchQuery(query: str, details: str, lat: float | None, lon: float | 
   agg = [{  
     '$search': {
       'index': 'providerSearch',
+      'returnStoredSource': True,
       
       # As a free-form search, entered terms could match a number of fields.
       # The `compound` operator allows us to combine multiple search 
